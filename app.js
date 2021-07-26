@@ -7,7 +7,9 @@ const jsend = require('jsend');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const passportConfig = require('./config/passport');
-const {logger} = require('./config/logger');
+const {
+    logger
+} = require('./config/logger');
 const sharedSession = require('express-socket.io-session');
 const MySQLStore = require('connect-mysql')(expressSession);
 

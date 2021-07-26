@@ -110,8 +110,8 @@ exports.offlineScanner = async (socket, payload) => {
       }
     })
   }
-  if (payload.devices.length === 0){
-    if (socket === null){
+  if (payload.devices.length === 0) {
+    if (socket === null) {
       return {
         deviceScanned: payload.devices.length,
         offlineDevice: Array(),
@@ -188,54 +188,52 @@ exports.dashboard = async (socket, payload) => {
   };
   const connection = mikrotikApi.createConnection(conn);
   connection.connect().then(async () => {
-      let i = 0;
-      while (socket.connected) {
-        let result = {};
-        if (i === 0) {
-          const health = await mikrotikApi.write(connection, [
-            "/system/health/print",
-          ]);
-          if (health.length === 1) {
-            result.temperature = parseInt(health[0]['temperature']);
-            result.voltage = parseInt(health[0]['voltage']);
-          }
-          const routerboard = await mikrotikApi.write(connection, [
-            "/system/routerboard/print",
-          ]);
-          result.model = routerboard[0]["model"];
+    let i = 0;
+    while (socket.connected) {
+      let result = {};
+      if (i === 0) {
+        const health = await mikrotikApi.write(connection, [
+          "/system/health/print",
+        ]);
+        if (health.length === 1) {
+          result.temperature = parseInt(health[0]['temperature']);
+          result.voltage = parseInt(health[0]['voltage']);
         }
-        const clock = await mikrotikApi.write(connection, [
-          "/system/clock/print",
+        const routerboard = await mikrotikApi.write(connection, [
+          "/system/routerboard/print",
         ]);
-        const resource = await mikrotikApi.write(connection, [
-          "/system/resource/print",
-        ]);
-        const traffic = await mikrotikApi.write(connection, [
-          "/interface/monitor-traffic",
-          "=interface=" + payload.interface,
-          "=once",
-        ]);
-
-        result.uptime = parseDuration(resource[0]["uptime"], 's');
-        result.version = resource[0]["version"];
-        result.usedMemory =
-          parseInt(resource[0]["total-memory"]) -
-          parseInt(resource[0]["free-memory"]);
-        result.totalMemory = parseInt(resource[0]["total-memory"]);
-        result.cpuLoad = parseInt(resource[0]["cpu-load"]);
-        result.time = clock[0]["time"];
-        result.date = clock[0]["date"];
-        result.interface = traffic[0]["name"];
-        result.rxBitsPerSecond = traffic[0]["rx-bits-per-second"];
-        result.txBitsPerSecond = traffic[0]["tx-bits-per-second"];
-        socket.emit("DASHBOARD", result);
-        await sleep(1000);
-        i++;
+        result.model = routerboard[0]["model"];
       }
-      connection.close();
-    }).catch((error) => {
-      logger.error(`mikrotik connection error ${JSON.stringify(error)}`);
-    });
+      const clock = await mikrotikApi.write(connection, [
+        "/system/clock/print",
+      ]);
+      const resource = await mikrotikApi.write(connection, [
+        "/system/resource/print",
+      ]);
+      const traffic = await mikrotikApi.write(connection, [
+        "/interface/monitor-traffic",
+        "=interface=" + payload.interface,
+        "=once",
+      ]);
+
+      result.uptime = parseDuration(resource[0]["uptime"], 's');
+      result.version = resource[0]["version"];
+      result.usedMemory =
+        parseInt(resource[0]["total-memory"]) -
+        parseInt(resource[0]["free-memory"]);
+      result.totalMemory = parseInt(resource[0]["total-memory"]);
+      result.cpuLoad = parseInt(resource[0]["cpu-load"]);
+      result.time = clock[0]["time"];
+      result.date = clock[0]["date"];
+      result.traffic = traffic;
+      socket.emit("DASHBOARD", result);
+      await sleep(1000);
+      i++;
+    }
+    connection.close();
+  }).catch((error) => {
+    logger.error(`mikrotik connection error ${JSON.stringify(error)}`);
+  });
 };
 
 exports.traffic = async (socket, payload) => {

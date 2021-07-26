@@ -13,7 +13,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Server Selector Wizard - DNMS</title>
+    <title>Server Selector Wizard - UNMS</title>
     <!-- CSS files -->
     <%- include('partials/head') %>
 </head>
@@ -24,7 +24,8 @@
             <div class="card card-md">
                 <% if (locals.action == 'SELECT' || locals.action == 'ENABLE') { %>
                 <div class="card-body text-center py-4 p-sm-5">
-                    <img src="/assets/vendor/tabler/static/illustrations/undraw_sign_in_e6hj.svg" height="128" class="mb-n2" height="120" alt="">
+                    <img src="/assets/vendor/tabler/static/illustrations/undraw_sign_in_e6hj.svg" height="128"
+                        class="mb-n2" height="120" alt="">
                     <h1 class="mt-5">Welcome to DNMS!</h1>
                 </div>
                 <div class="hr-text hr-text-center hr-text-spaceless">app configuration</div>
@@ -52,27 +53,32 @@
                         <input type="hidden" name="id" id="id" />
                         <div class="mb-3">
                             <label class="form-label">Name</label>
-                            <input type="text" class="form-control" name="name" id="name" placeholder="Server name" required />
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Server name"
+                                required />
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Comment</label>
-                            <textarea name="comment" id="comment" rows="2" class="form-control" placeholder="Server comment or note"></textarea>
+                            <textarea name="comment" id="comment" rows="2" class="form-control"
+                                placeholder="Server comment or note"></textarea>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Connect To</label>
-                            <input type="text" class="form-control" name="connect-to" id="connect-to" placeholder="Server IP or domain" required />
+                            <input type="text" class="form-control" name="connect-to" id="connect-to"
+                                placeholder="Server IP or domain" required />
                         </div>
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="mb-3">
                                     <label class="form-label">API Port</label>
-                                    <input type="text" class="form-control" name="api-port" id="api-port" value="8728" placeholder="API Port" />
+                                    <input type="text" class="form-control" name="api-port" id="api-port" value="8728"
+                                        placeholder="API Port" />
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="mb-3">
                                     <label class="form-label">SNMP Community</label>
-                                    <input type="text" class="form-control" name="snmp-community" id="snmp-community" placeholder="SNMP Community" value="public" />
+                                    <input type="text" class="form-control" name="snmp-community" id="snmp-community"
+                                        placeholder="SNMP Community" value="public" />
                                 </div>
                             </div>
                         </div>
@@ -80,13 +86,15 @@
                             <div class="col-lg-6">
                                 <div class="mb-3">
                                     <label class="form-label">Username</label>
-                                    <input type="text" class="form-control" name="username" id="username" placeholder="Server API username" value="admin" />
+                                    <input type="text" class="form-control" name="username" id="username"
+                                        placeholder="Server API username" value="admin" />
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="mb-3">
                                     <label class="form-label">Password</label>
-                                    <input type="text" class="form-control" name="password" id="password" placeholder="Server API password" />
+                                    <input type="text" class="form-control" name="password" id="password"
+                                        placeholder="Server API password" />
                                 </div>
                             </div>
                         </div>
@@ -96,12 +104,14 @@
                     <form id="form">
                         <% locals.servers.map(server => { %>
                         <label class="form-selectgroup-item flex-fill mb-2">
-                            <input type="radio" name="server-id" value="<%= server.id %>" class="form-selectgroup-input" checked>
+                            <input type="radio" name="server-id" value="<%= server.id %>" class="form-selectgroup-input"
+                                checked>
                             <div class="form-selectgroup-label d-flex align-items-center p-3">
                                 <div class="me-3">
                                     <span class="form-selectgroup-check"></span>
                                 </div>
-                                <div class="form-selectgroup-label-content d-flex align-items-center" style="text-align: left !important;">
+                                <div class="form-selectgroup-label-content d-flex align-items-center"
+                                    style="text-align: left !important;">
                                     <div>
                                         <div class="font-weight-medium"><%= server.name %></div>
                                         <div class="text-muted"><%= server.comment %> - <%= server.connectTo %></div>
@@ -117,7 +127,8 @@
             <div class="row align-items-center mt-3">
                 <div class="col">
                     <div class="btn-list justify-content-end">
-                        <a href="javascript:void(0)" onclick="runAction('<%= locals.action %>')" class="btn btn-primary">
+                        <a href="javascript:void(0)" onclick="runAction('<%= locals.action %>')"
+                            class="btn btn-primary">
                             Continue
                         </a>
                     </div>
